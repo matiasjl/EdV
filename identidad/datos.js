@@ -5,9 +5,9 @@ const NAMES = [
   "¿Identidad?",
 ];
 const NOMBRES_ARCHIVOS = [
-  " ",
-  " ",
-  " ",
+  "EdVsimiobrafuera.txt",
+  "EdVherramientas.txt",
+  "EdVreferentes.txt",
   "EdVidentidad.txt",
 ];
 let lines;  // ----------------------------- GRUPO DE DATOS
