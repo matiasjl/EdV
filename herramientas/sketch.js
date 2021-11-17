@@ -1,17 +1,17 @@
 // @redtek 2021
-// 08 VERSIÓN ESTABLE FINAL EN HTML
+// 09 VERSIÓN ESTABLE FINAL EN HTML x 4
 
-let ID = 1; //0 a 3: unidad de ejercicio a ejecutar
-
+let lines = [];
 let tapMe;
 let item;
 let tam;
 let d;
 let p;
+let t;
 
 function preload() {
-  //CARGA DE TODOS LOS TEXTOS
-  cargarTextos(int(NOMBRES_ARCHIVOS.length));
+  //CARGA LAS LINEAS DEL TEXTO EN UN ARRAY
+  lines = loadStrings("assets/" + NOMBRE_ARCHIVO);
 }
 
 function setup() {
@@ -20,7 +20,8 @@ function setup() {
   //seteos iniciales
   d = document.getElementsByClassName("contenedor")[0];
   p = document.getElementById("haiku");
-  welcome( NAMES[ID] );
+  t = document.getElementById("titulo");
+  welcome( NAME );
 
   setShakeThreshold(30);
 }
@@ -34,14 +35,16 @@ function dibujar(){
 }
 
 function randomLine() {
-  let x = int(random(ENCUENTROS[ID].length));
-  item = ENCUENTROS[ID][x];
+  let x = int(random(lines.length));
+  item = lines[x];
   p.style.fontSize = "24pt";
 
   dibujar();
 }
 
 function welcome(name){
+  //INICIALIZO TITLE Y P
+  t.innerText = name;
   p.style.fontSize = "48pt";  
   item = name + "\n\n<TOUCH*ME>";
   dibujar();
@@ -58,7 +61,7 @@ function keyPressed() {
 }
 
 function deviceShaken() {
-  welcome( NAMES[ID] );
+  welcome( NAME );
 }
 
 //function mousePressed() {
