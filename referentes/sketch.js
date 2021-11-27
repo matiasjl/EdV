@@ -1,13 +1,14 @@
 // @redtek 2021
-// 09 VERSIÓN ESTABLE FINAL EN HTML x 4
+// 10 VERSIÓN ESTABLE v1.1
+// updates: urna, tamaño texto dinámico, limpieza de código
 
 let lines = [];
-let tapMe;
-let item;
-let tam;
-let d;
-let p;
-let t;
+let tapMe;//boolean para definición de colores
+let item; //linea de texto seleccionada (temporal)
+let d;    //div contenedor
+let p;    //id haiku
+let u;    //urna para evitar repetición
+let t;    //contenido de la etiqueta html <title>
 
 function preload() {
   //CARGA LAS LINEAS DEL TEXTO EN UN ARRAY
@@ -21,23 +22,30 @@ function setup() {
   d = document.getElementsByClassName("contenedor")[0];
   p = document.getElementById("haiku");
   t = document.getElementById("titulo");
-  welcome( NAME );
+ welcome( NAME );
+
+  //INICIALIZA CLASE URNA CON CANTIDAD DE DATOS
+  u = new Urna( lines.length );
 
   setShakeThreshold(30);
 }
 
 function dibujar(){
   tapMe = !tapMe;
+
   d.style.backgroundColor = tapMe ? "white" : "black";
-  p.style.color = tapMe ? "black" : "white";
   p.style.color = tapMe ? "black" : "white";
   p.innerText = item; //así cambio el texto en la etiqueta p con id "haiku"
 }
 
 function randomLine() {
-  let x = int(random(lines.length));
+  let x = u.sacar();  //aleatoriedad resuelta con urna 
   item = lines[x];
-  p.style.fontSize = "24pt";
+
+  //let mp = int( map( item.length, 0, 150, 500, 200 ) ); //funciones de p5...
+  //p.style.fontSize = mp + "%";
+  let mp = int( map( item.length, 0, 150, 60, 24 ) ); //funciones de p5...
+  p.style.fontSize = mp + "pt"; 
 
   dibujar();
 }
@@ -45,8 +53,9 @@ function randomLine() {
 function welcome(name){
   //INICIALIZO TITLE Y P
   t.innerText = name;
-  p.style.fontSize = "48pt";  
+  p.style.fontSize = "48" + "pt";
   item = name + "\n\n<TOUCH*ME>";
+
   dibujar();
 }
 
@@ -60,7 +69,7 @@ function keyPressed() {
   }
 }
 
-function deviceShaken() {
+function deviceShaken() { //NO funciona en todos los navegadores
   welcome( NAME );
 }
 

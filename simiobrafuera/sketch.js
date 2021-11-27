@@ -1,13 +1,14 @@
 // @redtek 2021
 // 10 VERSIÓN ESTABLE v1.1
-// urna, tamanio texto dinámico, limpieza de código
+// updates: urna, tamaño texto dinámico, limpieza de código
 
 let lines = [];
 let tapMe;//boolean para definición de colores
 let item; //linea de texto seleccionada (temporal)
 let d;    //div contenedor
 let p;    //id haiku
-let u;
+let u;    //urna para evitar repetición
+let t;    //contenido de la etiqueta html <title>
 
 function preload() {
   //CARGA LAS LINEAS DEL TEXTO EN UN ARRAY
@@ -20,7 +21,8 @@ function setup() {
   //seteos iniciales
   d = document.getElementsByClassName("contenedor")[0];
   p = document.getElementById("haiku");
-  welcome( NAME );
+  t = document.getElementById("titulo");
+ welcome( NAME );
 
   //INICIALIZA CLASE URNA CON CANTIDAD DE DATOS
   u = new Urna( lines.length );
@@ -40,15 +42,18 @@ function randomLine() {
   let x = u.sacar();  //aleatoriedad resuelta con urna 
   item = lines[x];
 
-  let mp = int( map( item.length, 0, 150, 300, 150 ) ); //funciones de p5...
-  p.style.fontSize = mp + "%"; 
+  //let mp = int( map( item.length, 0, 150, 500, 200 ) ); //funciones de p5...
+  //p.style.fontSize = mp + "%";
+  let mp = int( map( item.length, 0, 150, 60, 24 ) ); //funciones de p5...
+  p.style.fontSize = mp + "pt"; 
 
   dibujar();
 }
 
 function welcome(name){
   //INICIALIZO TITLE Y P
-  p.style.fontSize = "48pt";
+  t.innerText = name;
+  p.style.fontSize = "48" + "pt";
   item = name + "\n\n<TOUCH*ME>";
 
   dibujar();
