@@ -5,6 +5,7 @@
 let lines = [];
 let tapMe;//boolean para definición de colores
 let item; //linea de texto seleccionada (temporal)
+let tam;  //tamanio tipográfico dinámico
 let d;    //div contenedor
 let p;    //id haiku
 let u;    //urna para evitar repetición
@@ -42,10 +43,14 @@ function randomLine() {
   let x = u.sacar();  //aleatoriedad resuelta con urna 
   item = lines[x];
 
-  //let mp = int( map( item.length, 0, 150, 500, 200 ) ); //funciones de p5...
-  //p.style.fontSize = mp + "%";
-  let mp = int( map( item.length, 0, 150, 60, 24 ) ); //funciones de p5...
-  p.style.fontSize = mp + "pt"; 
+  //TAMAÑO TIPOGRÁFICO DINÁMICO -> uso funciones de p5
+  if( isInFullScreen() ){ //revuelve bug de tamanio en fullscreen (aunque la primera no funciona)
+    tam = int( map( item.length, 0, 150, FZ_MAX_FS, FZ_MIN_FS ) );
+  }else{
+    tam = int( map( item.length, 0, 150, FZ_MAX, FZ_MIN ) );
+  }
+  //p.style.fontSize = tam + "%";
+  p.style.fontSize = tam + "pt"; 
 
   dibujar();
 }
@@ -64,7 +69,7 @@ function welcome(name){
 
 function keyPressed() {
   if (key == " ") {
-    openFullscreen();
+    //openFullscreen();
     randomLine();
   }
 }
@@ -87,15 +92,27 @@ function touchStarted() {
 /* Get the documentElement (<html>) to display the page in fullscreen */
 var elem = document.documentElement;
 
-// variable que me devuelve true si ya estoy en fullScreen
-var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
-(document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
-(document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
-(document.msFullscreenElement && document.msFullscreenElement !== null);
+//variable que me devuelve true si ya estoy en fullScreen --> FAIL NO SE ACTUALIZA NUNCA!
+//var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
+//(document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+//(document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+//(document.msFullscreenElement && document.msFullscreenElement !== null);;
+
+function isInFullScreen(){  //versión modo función (actualizable cada vez que se llama)
+  if( (document.fullscreenElement && document.fullscreenElement !== null) ||
+      (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+      (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+      (document.msFullscreenElement && document.msFullscreenElement !== null) ){
+    fs = true;
+  }else{
+    fs = false;
+  }
+  return fs;
+}
 
 /* View in fullscreen */
 function openFullscreen() {
-  //if (!isInFullScreen) {
+  if ( !isInFullScreen() ) {
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
     } else if (elem.webkitRequestFullscreen) { /* Safari */
@@ -105,5 +122,5 @@ function openFullscreen() {
     //} else if (element.mozRequestFullScreen) {  /* Firefox */
     //  element.mozRequestFullScreen(); //me tiro error en chrome de iOS
     }
-  //}
+  }
 }
