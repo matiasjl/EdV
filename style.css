@@ -7,11 +7,11 @@ html, body {
 canvas {
   display: block;
 }
-p {
+p{
   font-family: "Courier New", Courier, monospace;
   text-align: center;
   color: white;
-  /* font-size: xx-large; */
+  font-size: 24pt;
 }
 .contenedor{
   /*display: flex;*/
